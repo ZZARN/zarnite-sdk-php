@@ -1,0 +1,9 @@
+# PlaygroundEndRequest
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**reason** | **string** | Reason for ending the session | [optional] [default to 'user_left']
+
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
