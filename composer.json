@@ -1,20 +1,21 @@
 {
-    "description": "Agent lifecycle, behaviors, knowledge, learners, API keys, deployments, playground, memory, usage, analytics.",
+    "name": "zarnite/sdk",
+    "description": "Official PHP SDK for the Zarnite AI platform",
     "keywords": [
-        "openapitools",
-        "openapi-generator",
-        "openapi",
-        "php",
+        "zarnite",
         "sdk",
-        "rest",
-        "api"
+        "ai",
+        "tutor",
+        "voice",
+        "rag"
     ],
-    "homepage": "https://openapi-generator.tech",
-    "license": "unlicense",
+    "homepage": "https://github.com/ZZARN/zarnite-sdk-php",
+    "license": "MIT",
     "authors": [
         {
-            "name": "OpenAPI",
-            "homepage": "https://openapi-generator.tech"
+            "name": "zarnite",
+            "email": "support@zarnite.com",
+            "homepage": "https://zarnite.com"
         }
     ],
     "require": {
