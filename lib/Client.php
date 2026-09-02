@@ -28,7 +28,7 @@ class ZarniteException extends \Exception {
     protected $code;
     protected $data;
 
-    public function __construct($message = "", $status = null, $code = "API_ERROR", $data = null, \Throwable $previous = null) {
+    public function __construct($message = "", $status = null, $code = "API_ERROR", $data = null, ?\Throwable $previous = null) {
         parent::__construct($message, $status ?? 0, $previous);
         $this->status = $status;
         $this->code = $code;

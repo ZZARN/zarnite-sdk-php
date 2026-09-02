@@ -23,7 +23,7 @@ Initialize the unified `Zarnite\Client` with your API key to interact with your 
 ```php
 <?php
 
-require_once __DIR__ . '/vendor/autoload.class.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use Zarnite\Client;
 use Zarnite\ZarniteException;
@@ -34,8 +34,9 @@ $client = new Client([
 
 try {
     // 1. Fetch available tutor agents safely (Task 3.2)
-    $agentsEnvelope = Client::execute(function() use ($client) {
-        return $client->agents->listAgentsV1AgentsGet();
+    $orgId = 'org_123';
+    $agentsEnvelope = Client::execute(function() use ($client, $orgId) {
+        return $client->agents->listAgentsV1AgentsGet($orgId);
     });
     
     $agents = $agentsEnvelope->getData();

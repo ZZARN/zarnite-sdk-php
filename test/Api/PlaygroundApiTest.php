@@ -27,6 +27,7 @@
 
 namespace Zarnite\Test\Api;
 
+use Zarnite\Api\PlaygroundApi;
 use \Zarnite\Configuration;
 use \Zarnite\ApiException;
 use \Zarnite\ObjectSerializer;
@@ -79,8 +80,12 @@ class PlaygroundApiTest extends TestCase
      */
     public function testBootstrapSessionV1PlaygroundSessionsPost()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing the required parameter $playground_session_request when calling bootstrapSessionV1PlaygroundSessionsPost');
+
+        $api->bootstrapSessionV1PlaygroundSessionsPostRequest(null);
     }
 
     /**
@@ -91,8 +96,14 @@ class PlaygroundApiTest extends TestCase
      */
     public function testEndSessionV1PlaygroundSessionsSessionIdEndPost()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+
+        $api = new PlaygroundApi(null, $config);
+        $request = $api->endSessionV1PlaygroundSessionsSessionIdEndPostRequest('session_1', ['status' => 'ended']);
+
+        self::assertSame('POST', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/sessions/session_1/end', (string) $request->getUri());
     }
 
     /**
@@ -103,8 +114,11 @@ class PlaygroundApiTest extends TestCase
      */
     public function testMarkActivityV1PlaygroundSessionsSessionIdActivityPost()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+        $request = $api->markActivityV1PlaygroundSessionsSessionIdActivityPostRequest('session_1');
+
+        self::assertSame('POST', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/sessions/session_1/activity', (string) $request->getUri());
     }
 
     /**
@@ -115,8 +129,16 @@ class PlaygroundApiTest extends TestCase
      */
     public function testRecentTranscriptsV1PlaygroundTranscriptsRecentGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+        $request = $api->recentTranscriptsV1PlaygroundTranscriptsRecentGetRequest('org_1', 'agent_1', 'user_1', 10);
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/transcripts/recent', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertStringContainsString('agent_id=agent_1', $uri);
+        self::assertStringContainsString('user_id=user_1', $uri);
+        self::assertStringContainsString('limit=10', $uri);
     }
 
     /**
@@ -127,8 +149,11 @@ class PlaygroundApiTest extends TestCase
      */
     public function testSessionDiagnosticsV1PlaygroundSessionsSessionIdDiagnosticsGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+        $request = $api->sessionDiagnosticsV1PlaygroundSessionsSessionIdDiagnosticsGetRequest('session_1');
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/sessions/session_1/diagnostics', (string) $request->getUri());
     }
 
     /**
@@ -139,8 +164,11 @@ class PlaygroundApiTest extends TestCase
      */
     public function testSessionMetricsV1PlaygroundSessionsSessionIdMetricsGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+        $request = $api->sessionMetricsV1PlaygroundSessionsSessionIdMetricsGetRequest('session_1');
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/sessions/session_1/metrics', (string) $request->getUri());
     }
 
     /**
@@ -151,8 +179,11 @@ class PlaygroundApiTest extends TestCase
      */
     public function testSessionTranscriptV1PlaygroundSessionsSessionIdTranscriptGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+        $request = $api->sessionTranscriptV1PlaygroundSessionsSessionIdTranscriptGetRequest('session_1');
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/sessions/session_1/transcript', (string) $request->getUri());
     }
 
     /**
@@ -163,8 +194,14 @@ class PlaygroundApiTest extends TestCase
      */
     public function testSupportedVoicesV1PlaygroundVoicesGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+        $request = $api->supportedVoicesV1PlaygroundVoicesGetRequest('org_1', 'user_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/voices', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertStringContainsString('user_id=user_1', $uri);
     }
 
     /**
@@ -175,7 +212,13 @@ class PlaygroundApiTest extends TestCase
      */
     public function testVoiceLookupV1PlaygroundVoicesLookupGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new PlaygroundApi();
+        $request = $api->voiceLookupV1PlaygroundVoicesLookupGetRequest('org_1', 'user_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/playground/voices/lookup', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertStringContainsString('user_id=user_1', $uri);
     }
 }

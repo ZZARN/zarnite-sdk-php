@@ -27,9 +27,8 @@
 
 namespace Zarnite\Test\Api;
 
-use \Zarnite\Configuration;
-use \Zarnite\ApiException;
-use \Zarnite\ObjectSerializer;
+use Zarnite\Api\AgentsApi;
+use Zarnite\Configuration;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -79,8 +78,16 @@ class AgentsApiTest extends TestCase
      */
     public function testAssignLearnerV1AgentsAgentIdAssignmentsPost()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+        $config->setAccessToken('test_token');
+
+        $api = new AgentsApi(null, $config);
+        $request = $api->assignLearnerV1AgentsAgentIdAssignmentsPostRequest('agent_1', ['learner_id' => 'learner_1']);
+
+        self::assertSame('POST', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1/assignments', (string) $request->getUri());
+        self::assertSame('Bearer test_token', $request->getHeaderLine('Authorization'));
     }
 
     /**
@@ -91,8 +98,12 @@ class AgentsApiTest extends TestCase
      */
     public function testCreateAgentV1AgentsPost()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new AgentsApi();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing the required parameter $agent_create when calling createAgentV1AgentsPost');
+
+        $api->createAgentV1AgentsPostRequest(null);
     }
 
     /**
@@ -103,8 +114,18 @@ class AgentsApiTest extends TestCase
      */
     public function testDeleteAgentV1AgentsAgentIdDelete()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+        $config->setAccessToken('test_token');
+
+        $api = new AgentsApi(null, $config);
+        $request = $api->deleteAgentV1AgentsAgentIdDeleteRequest('agent_1', 'org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('DELETE', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertSame('Bearer test_token', $request->getHeaderLine('Authorization'));
     }
 
     /**
@@ -115,8 +136,16 @@ class AgentsApiTest extends TestCase
      */
     public function testGetAgentV1AgentsAgentIdGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+
+        $api = new AgentsApi(null, $config);
+        $request = $api->getAgentV1AgentsAgentIdGetRequest('agent_1', 'org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
     }
 
     /**
@@ -127,8 +156,22 @@ class AgentsApiTest extends TestCase
      */
     public function testListAgentsV1AgentsGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+        $config->setAccessToken('test_token');
+
+        $api = new AgentsApi(null, $config);
+        $request = $api->listAgentsV1AgentsGetRequest('org_1', 'agent_1', 'active', 50, 2);
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertStringContainsString('agent_id=agent_1', $uri);
+        self::assertStringContainsString('status=active', $uri);
+        self::assertStringContainsString('limit=50', $uri);
+        self::assertStringContainsString('offset=2', $uri);
+        self::assertSame('Bearer test_token', $request->getHeaderLine('Authorization'));
     }
 
     /**
@@ -139,8 +182,13 @@ class AgentsApiTest extends TestCase
      */
     public function testListAssignmentsV1AgentsAgentIdAssignmentsGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new AgentsApi();
+        $request = $api->listAssignmentsV1AgentsAgentIdAssignmentsGetRequest('agent_1', 'org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1/assignments', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
     }
 
     /**
@@ -151,8 +199,13 @@ class AgentsApiTest extends TestCase
      */
     public function testRevokeAssignmentV1AgentsAgentIdAssignmentsLearnerIdDelete()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new AgentsApi();
+        $request = $api->revokeAssignmentV1AgentsAgentIdAssignmentsLearnerIdDeleteRequest('agent_1', 'learner_1', 'org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('DELETE', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1/assignments/learner_1', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
     }
 
     /**
@@ -163,8 +216,12 @@ class AgentsApiTest extends TestCase
      */
     public function testUpdateAgentV1AgentsAgentIdPatch()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new AgentsApi();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing the required parameter $agent_update when calling updateAgentV1AgentsAgentIdPatch');
+
+        $api->updateAgentV1AgentsAgentIdPatchRequest('agent_1', 'org_1', null);
     }
 
     /**
@@ -175,7 +232,17 @@ class AgentsApiTest extends TestCase
      */
     public function testUpdateAgentV1AgentsAgentIdPut()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+        $config->setAccessToken('test_token');
+
+        $api = new AgentsApi(null, $config);
+        $request = $api->updateAgentV1AgentsAgentIdPutRequest('agent_1', 'org_1', ['name' => 'Updated Agent']);
+        $uri = (string) $request->getUri();
+
+        self::assertSame('PUT', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertSame('Bearer test_token', $request->getHeaderLine('Authorization'));
     }
 }

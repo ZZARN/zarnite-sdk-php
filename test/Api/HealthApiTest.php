@@ -27,9 +27,8 @@
 
 namespace Zarnite\Test\Api;
 
-use \Zarnite\Configuration;
-use \Zarnite\ApiException;
-use \Zarnite\ObjectSerializer;
+use Zarnite\Api\HealthApi;
+use Zarnite\Configuration;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -79,7 +78,24 @@ class HealthApiTest extends TestCase
      */
     public function testHealthHealthGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+        $config->setUserAgent('zarnite-test');
+
+        $api = new HealthApi(null, $config);
+        $request = $api->healthHealthGetRequest();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertSame('https://api.zarnite.com/health', (string) $request->getUri());
+        self::assertStringContainsString('application/json', $request->getHeaderLine('Accept'));
+        self::assertSame('zarnite-test', $request->getHeaderLine('User-Agent'));
+    }
+
+    public function testHostIndexRoundTrip()
+    {
+        $api = new HealthApi();
+        $api->setHostIndex(1);
+
+        self::assertSame(1, $api->getHostIndex());
     }
 }

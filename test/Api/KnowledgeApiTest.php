@@ -27,9 +27,8 @@
 
 namespace Zarnite\Test\Api;
 
-use \Zarnite\Configuration;
-use \Zarnite\ApiException;
-use \Zarnite\ObjectSerializer;
+use Zarnite\Api\KnowledgeApi;
+use Zarnite\Configuration;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -79,8 +78,18 @@ class KnowledgeApiTest extends TestCase
      */
     public function testDeleteAgentDocumentV1AgentsAgentIdDocumentsDocumentIdDelete()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+        $config->setAccessToken('test_token');
+
+        $api = new KnowledgeApi(null, $config);
+        $request = $api->deleteAgentDocumentV1AgentsAgentIdDocumentsDocumentIdDeleteRequest('agent_1', 'doc_1', 'org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('DELETE', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1/documents/doc_1', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertSame('Bearer test_token', $request->getHeaderLine('Authorization'));
     }
 
     /**
@@ -91,8 +100,18 @@ class KnowledgeApiTest extends TestCase
      */
     public function testDeleteOrgDocumentV1KnowledgeDocumentsDocumentIdDelete()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+        $config->setAccessToken('test_token');
+
+        $api = new KnowledgeApi(null, $config);
+        $request = $api->deleteOrgDocumentV1KnowledgeDocumentsDocumentIdDeleteRequest('doc_1', 'org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('DELETE', $request->getMethod());
+        self::assertStringContainsString('/v1/knowledge/documents/doc_1', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
+        self::assertSame('Bearer test_token', $request->getHeaderLine('Authorization'));
     }
 
     /**
@@ -103,8 +122,13 @@ class KnowledgeApiTest extends TestCase
      */
     public function testListAgentDocumentsV1AgentsAgentIdDocumentsGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new KnowledgeApi();
+        $request = $api->listAgentDocumentsV1AgentsAgentIdDocumentsGetRequest('agent_1', 'org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1/documents', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
     }
 
     /**
@@ -115,8 +139,16 @@ class KnowledgeApiTest extends TestCase
      */
     public function testListOrgDocumentsV1KnowledgeDocumentsGet()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+
+        $api = new KnowledgeApi(null, $config);
+        $request = $api->listOrgDocumentsV1KnowledgeDocumentsGetRequest('org_1');
+        $uri = (string) $request->getUri();
+
+        self::assertSame('GET', $request->getMethod());
+        self::assertStringContainsString('/v1/knowledge/documents', $uri);
+        self::assertStringContainsString('org_id=org_1', $uri);
     }
 
     /**
@@ -127,8 +159,19 @@ class KnowledgeApiTest extends TestCase
      */
     public function testUploadAgentDocumentV1AgentsAgentIdDocumentsPost()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $config = new Configuration();
+        $config->setHost('https://api.zarnite.com');
+
+        $api = new KnowledgeApi(null, $config);
+        $request = $api->uploadAgentDocumentV1AgentsAgentIdDocumentsPostRequest('agent_1', 'dummy.txt', 'org_1', 'user_1');
+        $body = (string) $request->getBody();
+
+        self::assertSame('POST', $request->getMethod());
+        self::assertStringContainsString('/v1/agents/agent_1/documents', (string) $request->getUri());
+        self::assertStringContainsString('name="org_id"', $body);
+        self::assertStringContainsString('org_1', $body);
+        self::assertStringContainsString('name="user_id"', $body);
+        self::assertStringContainsString('user_1', $body);
     }
 
     /**
@@ -139,7 +182,11 @@ class KnowledgeApiTest extends TestCase
      */
     public function testUploadOrgDocumentV1KnowledgeDocumentsPost()
     {
-        // TODO: implement
-        self::markTestIncomplete('Not implemented');
+        $api = new KnowledgeApi();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing the required parameter $file when calling uploadOrgDocumentV1KnowledgeDocumentsPost');
+
+        $api->uploadOrgDocumentV1KnowledgeDocumentsPostRequest(null, 'org_1');
     }
 }
