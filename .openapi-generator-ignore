@@ -24,3 +24,10 @@
 
 # Ignore the main README.md so our beautiful human-written file is never overwritten
 README.md
+
+# Ignore lib/Client.php, the hand-written wrapper holding the production host and error class
+# It is not in the generator's output manifest, so nothing protects it today
+lib/Client.php
+
+# Ignore lib/ZarniteException.php, the hand-written exception class split out for PSR-4 autoloading
+lib/ZarniteException.php
